@@ -1,0 +1,99 @@
+/* Register.css - Scoped Styles */
+.register-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100vh;
+    background-color: linear-gradient(to right, #e0eafc, #cfdef3);
+    width: 100vw;
+}
+
+.register-radio-group {
+    color: black;
+}
+
+.register-box {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    text-align: center;
+}
+
+.register-title {
+    margin-bottom: 20px;
+    font-size: 22px;
+    color: #333;
+}
+
+.register-form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.register-form-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.register-input {
+    width: 94%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: white;
+    color: black;
+}
+
+.register-error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+    display: block;
+}
+
+.register-btn {
+    width: 94%;
+    padding: 10px;
+    background:  #4A90E2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.register-btn:hover {
+    background:#357ABD;
+}
+
+.register-login-text {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.register-login-btn {
+    display: inline-block;
+    width: 89%;
+    padding: 10px;
+    background: #4A90E2;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.register-login-btn:hover {
+    background: #357ABD;
+}
