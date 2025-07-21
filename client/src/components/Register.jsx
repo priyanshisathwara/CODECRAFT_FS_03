@@ -13,7 +13,7 @@ export default function Register() {
         email: "",
         password: "",
         confirm_password: "",
-        role:"user"
+        role: "user"
     });
 
     const [errors, setErrors] = useState({});
@@ -34,7 +34,7 @@ export default function Register() {
             return;
         }
 
-console.log(formData);
+        console.log(formData);
 
 
         try {
@@ -49,9 +49,8 @@ console.log(formData);
 
                 // Save user data to localStorage
                 localStorage.setItem("user", JSON.stringify(data.user));
-
                 toast.success("Registered successfully!");
-                setTimeout(() => navigate("/"), 3000);
+                navigate("/");
             }
         } catch (err) {
             console.error("Error during registration:", err);

@@ -1,0 +1,104 @@
+.admin-panel {
+    display: flex;
+    height: 100vh;
+    background-color: #f4f4f4;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.admin-content {
+    flex: 1;
+    padding: 30px;
+    background-color: #ffffff;
+    overflow-y: auto;
+}
+
+/* Sidebar */
+.sidebar-container {
+    width: 240px;
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    position: relative;
+    transition: width 0.3s;
+}
+
+.sidebar-container .sidebar {
+    padding: 20px;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+.sidebar .toggle-btn {
+    background-color: #34495e;
+    color: #ecf0f1;
+    border: none;
+    padding: 8px 16px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+}
+
+.sidebar .menu {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar .menu li {
+    margin: 10px 0;
+}
+
+.sidebar .menu li a {
+    color: #ecf0f1;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.sidebar .menu li a:hover {
+    background-color: #34495e;
+}
+
+/* Overlay for small screens */
+.overlay {
+    display: none;
+}
+
+.overlay.active {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 240px;
+    width: calc(100% - 240px);
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 100;
+}
+
+.sidebar-container.open .sidebar {
+    width: 240px;
+}
+
+@media (max-width: 768px) {
+    .sidebar-container {
+        position: fixed;
+        left: -240px;
+        top: 0;
+        height: 100vh;
+        z-index: 200;
+    }
+
+    .sidebar-container.open {
+        left: 0;
+        transition: left 0.3s;
+    }
+
+    .overlay {
+        display: block;
+    }
+
+    .admin-content {
+        margin-left: 0;
+    }
+}
