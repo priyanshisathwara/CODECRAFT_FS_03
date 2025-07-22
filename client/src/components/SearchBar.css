@@ -1,0 +1,104 @@
+.search-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    margin: 20px auto;
+    position: relative;
+}
+
+/* Wrapper to bind input and dropdown widths */
+.search-wrapper {
+    width: 100%;
+    position: relative;
+}
+
+/* Search Input Container */
+.search-input-div {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: var(--background);
+    border: 1px solid var(--secondary);
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+/* Input Field */
+.search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    padding: 8px;
+    background: transparent;
+    color: var(--primary);
+}
+
+/* Search Icon */
+.search-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    cursor: pointer;
+    color: #fff;
+    background-color: var(--highlight);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    transition: background-color 0.2s ease;
+}
+
+.search-icon:hover {
+    background-color: #1e5a6a;
+}
+
+/* Search Results Dropdown */
+.search-result {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--background);
+    color: var(--primary);
+    z-index: 1;
+    margin-top: 5px;
+    border: 1px solid var(--secondary);
+    border-radius: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+}
+
+.search-section .search-result {
+    display: block;
+}
+
+/* Search Result Item */
+.search-suggestion-line {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-suggestion-line:hover {
+    background: var(--secondary);
+}
+
+.search-suggestion-line.active {
+    background-color: var(--accent);
+    color: #fff;
+}
+
+/* Adjust spacing of result list */
+.search-result .search-suggestion-line {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.search-result .search-suggestion-line:last-child {
+    border-bottom: none;
+}

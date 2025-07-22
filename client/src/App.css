@@ -3,3 +3,12 @@ body{
   padding: 0px;
 }
 
+
+/* variables.css */
+:root {
+    --primary: #1C1C1C;
+    --secondary: #D2B48C;
+    --accent: #C38154;
+    --background: #F6F6F6;
+    --highlight: #6F4E37;
+}

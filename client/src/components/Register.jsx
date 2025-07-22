@@ -47,11 +47,16 @@ export default function Register() {
             if (response.status === 200 || response.status === 201) {
                 const data = response.data;
 
-                // Save user data to localStorage
-                localStorage.setItem("user", JSON.stringify(data.user));
+                localStorage.setItem("user", JSON.stringify({
+                    name: formData.name,
+                    email: formData.email,
+                    role: formData.role
+                }));
+
                 toast.success("Registered successfully!");
                 navigate("/");
             }
+
         } catch (err) {
             console.error("Error during registration:", err);
             toast.error(err?.response?.data?.message || "Something went wrong!");

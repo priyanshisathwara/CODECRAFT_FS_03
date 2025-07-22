@@ -71,3 +71,19 @@
 .edit-product-form button:hover {
     background-color: #34495e;
 }
+
+.image-preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.image-preview {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    padding: 2px;
+    border-radius: 6px;
+}

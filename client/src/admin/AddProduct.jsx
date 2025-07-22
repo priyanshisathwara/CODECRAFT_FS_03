@@ -84,11 +84,12 @@ export default function AddProduct() {
             <input type="text" name="size" placeholder="Sizes (S, M, L, XL)" value={formData.size} onChange={handleChange} required />
 
             <label>Gender</label>
-            <select name="gender" onChange={handleChange} value={formData.gender}>
-                <option value="Men">Men</option>
-                <option value="Women">Women</option>
-                <option value="Unisex">Unisex</option>
-            </select>
+         <select name="gender" onChange={handleChange} value={formData.gender}>
+    <option value="Male">Male</option>
+    <option value="Female">Female</option>
+    <option value="Unisex">Unisex</option>
+</select>
+
 
             <label>Product Images</label>
             <input type="file" name="images" accept="image/*" multiple onChange={handleChange} />

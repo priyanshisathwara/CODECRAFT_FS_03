@@ -1,66 +1,69 @@
+
 .navbar {
+    background-color: var(--primary);
+    color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 32px;
-    background-color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px 30px;
     position: sticky;
     top: 0;
     z-index: 1000;
 }
 
 .navbar-logo a {
+    color: var(--highlight);
     font-size: 1.8rem;
-    font-weight: bold;
-    color: #333;
     text-decoration: none;
+    font-weight: bold;
 }
 
 .navbar-links {
     display: flex;
+    gap: 25px;
     list-style: none;
-    gap: 32px;
 }
 
 .navbar-links li a {
-    color: #555;
+    color: white;
     text-decoration: none;
     font-weight: 500;
-    transition: color 0.2s;
-    font-size: 1.3rem;
+    position: relative;
+    padding: 5px;
 }
 
 .navbar-links li a:hover {
-    color: #000;
+    color: var(--accent);
+    border-bottom: 2px solid var(--accent);
 }
 
 .navbar-icons {
     display: flex;
-    gap: 24px;
+    gap: 20px;
     align-items: center;
 }
 
-.navbar-icons a {
-    color: #555;
-    transition: color 0.2s;
-}
-
-.navbar-icons a:hover {
-    color: #000;
-}
-
 .register-btn {
-    padding: 6px 16px;
-    background-color: #333;
+    background-color: var(--highlight);
     color: white;
     border: none;
+    padding: 8px 16px;
     border-radius: 4px;
-    font-weight: 500;
     cursor: pointer;
+    font-weight: 500;
     transition: 0.3s;
 }
 
 .register-btn:hover {
-    background-color: #555;
+    background-color: var(--accent);
+    color: #fff;
+}
+
+.navbar-icons a {
+    color: white;
+    transition: 0.3s;
+}
+
+.navbar-icons a:hover {
+    color: var(--accent);
 }

@@ -1,0 +1,43 @@
+.tos-container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: var(--background);
+    color: var(--primary);
+    font-family: sans-serif;
+    line-height: 1.6;
+}
+
+.tos-container h1 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: var(--primary);
+}
+
+.tos-container p {
+    margin-bottom: 20px;
+    color: var(--primary);
+}
+
+.tos-container ul {
+    padding-left: 20px;
+    margin-bottom: 20px;
+}
+
+.tos-container li {
+    margin-bottom: 10px;
+}
+
+.tos-container section {
+    margin-bottom: 40px;
+}
+
+.tos-container h2 {
+    font-size: 24px;
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+.tos-container strong {
+    color: var(--highlight);
+}

@@ -7,11 +7,17 @@
 
 .product-card {
     background: #fff;
-    border: 1px solid #eee;
+    border: 1px solid var(--secondary);
     padding: 20px;
     border-radius: 10px;
     text-align: center;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
+}
+
+.product-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .product-card img {
@@ -24,16 +30,47 @@
 .product-card h3 {
     margin: 10px 0;
     font-size: 18px;
-    color: #333;
+    color: var(--primary);
 }
 
 .product-card p {
     font-size: 14px;
-    color: #666;
+    color: var(--primary);
 }
 
 .product-card .price {
-    color: #000;
+    color: var(--accent);
     font-weight: 600;
     margin-top: 10px;
+}
+
+.filter-form {
+    display: flex;
+    gap: 10px;
+    margin: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.filter-form select,
+.filter-form input {
+    padding: 5px;
+    border: 1px solid var(--secondary);
+    border-radius: 4px;
+    background-color: #fff;
+    color: var(--primary);
+}
+
+.filter-form button {
+    padding: 5px 15px;
+    border: none;
+    background-color: var(--highlight);
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.filter-form button:hover {
+    background-color: #205ec9;
 }

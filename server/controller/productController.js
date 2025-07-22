@@ -38,13 +38,47 @@ export async function addProduct(req, res) {
 
 export async function getProducts(req, res) {
     try {
-        const [rows] = await db.promise().query('SELECT * FROM products');
+        const { category, size, gender, minPrice, maxPrice } = req.query;
+        console.log(req.query);
+
+
+        let query = 'SELECT * FROM products WHERE 1=1';
+        const params = [];
+
+        if (category) {
+            query += ' AND category = ?';
+            params.push(category);
+        }
+
+        if (size) {
+            query += ' AND size = ?';
+            params.push(size);
+        }
+
+        if (gender) {
+            query += ' AND gender = ?';
+            params.push(gender);
+        }
+
+        if (minPrice && maxPrice) {
+            query += ' AND price BETWEEN ? AND ?';
+            params.push(Number(minPrice), Number(maxPrice));
+            console.log(typeof req.query.minPrice); // string
+
+        }
+
+           console.log('Query:', query, params);
+
+
+
+        const [rows] = await db.promise().query(query, params);
         res.json(rows);
     } catch (error) {
         console.error('Error fetching products:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
+
 
 export async function getProductById(req, res) {
     try {
@@ -106,5 +140,24 @@ export async function updateProduct(req, res) {
     } catch (error) {
         console.error('Error updating product:', error);
         return res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+export async function searchProducts(req, res) {
+    const { query } = req.body;
+
+    if (!query || query.trim() === '') {
+        return res.json([]);
+    }
+
+    try {
+        const [rows] = await db.promise().query(
+            `SELECT id, name FROM products WHERE name LIKE ?`,
+            [`%${query}%`]
+        );
+        res.json(rows);
+    } catch (error) {
+        console.error('Error searching products:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 }

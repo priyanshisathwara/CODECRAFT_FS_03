@@ -32,21 +32,18 @@ export default function Navbar() {
                     <Link to="/">Home</Link>
                 </li>
                 <li>
-                    <Link to="#">Shop</Link>
+                    <Link to="/products">Shop</Link>
                 </li>
                 <li>
-                    <Link to="#">Categories</Link>
+                    <Link to="/about">About</Link>
                 </li>
                 <li>
-                    <Link to="#">About</Link>
-                </li>
-                <li>
-                    <Link to="#">Contact</Link>
+                    <Link to="/contact-us">Contact</Link>
                 </li>
             </ul>
 
             <div className="navbar-icons">
-                <Link to="#">
+                <Link to="/order-summary">
                     <FaShoppingCart size={22} />
                 </Link>
 

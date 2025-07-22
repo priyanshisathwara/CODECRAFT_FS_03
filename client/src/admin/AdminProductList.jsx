@@ -5,6 +5,8 @@ import './AdminProductList.css';
 export default function AdminProductList() {
     const [products, setProducts] = useState([]);
     const [editProduct, setEditProduct] = useState(null);
+    const [imagePreviews, setImagePreviews] = useState([]);
+
     const [formData, setFormData] = useState({
         name: '',
         description: '',
@@ -58,11 +60,14 @@ export default function AdminProductList() {
         if (name === 'images') {
             const fileArray = Array.from(files);
             setFormData({ ...formData, images: fileArray });
+
+            const previewUrls = fileArray.map(file => URL.createObjectURL(file));
+            setImagePreviews(previewUrls);
         } else {
             setFormData({ ...formData, [name]: value });
         }
-
     };
+
 
     const handleUpdate = async (e) => {
         e.preventDefault();
@@ -143,6 +148,18 @@ export default function AdminProductList() {
                             <option value="Unisex">Unisex</option>
                         </select>
                         <input type="file" name="images" accept="image/*" multiple onChange={handleChange} />
+                        <div className="image-preview-container">
+                            {imagePreviews.length > 0 ? (
+                                imagePreviews.map((src, idx) => (
+                                    <img key={idx} src={src} alt={`preview-${idx}`} className="image-preview" />
+                                ))
+                            ) : (
+                                editProduct?.image && JSON.parse(editProduct.image).map((img, idx) => (
+                                    <img key={idx} src={`http://localhost:8000${img}`} alt={`existing-${idx}`} className="image-preview" />
+                                ))
+                            )}
+                        </div>
+
 
                         <div className="buttons">
                             <button type="submit">Update</button>
