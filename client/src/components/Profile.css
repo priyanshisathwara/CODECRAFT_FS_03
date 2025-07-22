@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(to right, var(--background-color), var(--secondary-color));
+    background: linear-gradient(to right, var(--background), var(--secondary));
 }
 
 .profile-card {
@@ -13,19 +13,20 @@
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     text-align: center;
     width: 400px;
-    color: var(--primary-color);
+    color: var(--primary);
 }
 
 .logout-btn {
     margin-top: 20px;
     padding: 10px 20px;
-    background-color: var(--logout-color);
+    background-color: var(--accent);
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    transition: 0.3s;
 }
 
 .logout-btn:hover {
-    background-color: var(--logout-hover-color);
+    background-color: var(--highlight);
 }

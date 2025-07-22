@@ -1,21 +1,19 @@
-/* OTP.module.css */
-
 /* OTP Container */
 .otpContainer {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: linear-gradient(to right, #e0eafc, #cfdef3);
-
+    background: linear-gradient(to right, var(--background), var(--secondary));
+    font-family: 'Poppins', sans-serif;
 }
 
 /* OTP Card */
 .otpCard {
     width: 350px;
     padding: 20px;
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     border-radius: 8px;
 }
@@ -25,6 +23,7 @@
     margin-bottom: 15px;
     font-size: 20px;
     font-weight: bold;
+    color: var(--primary);
 }
 
 /* OTP Input Boxes */
@@ -40,7 +39,9 @@
     font-size: 1.5rem;
     text-align: center;
     border-radius: 8px;
-    border: 2px solid ;
+    border: 2px solid var(--secondary);
+    background-color: var(--background);
+    color: var(--primary);
 }
 
 /* Buttons */
@@ -57,21 +58,21 @@
 }
 
 .otpBtn {
-    background:  #4A90E2;
-    color: white;
+    background: var(--highlight);
+    color: #fff;
 }
 
 .otpBtn:hover {
-    background: #357ABD;
+    background: var(--accent);
 }
 
 .otpResendBtn {
-    background: #4A90E2;
-    color: white;
+    background: var(--highlight);
+    color: #fff;
 }
 
 .otpResendBtn:disabled {
-    background: #96c4f9;
+    background: var(--secondary);
     cursor: not-allowed;
 }
 

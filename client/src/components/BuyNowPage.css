@@ -2,32 +2,34 @@
     max-width: 500px;
     margin: 50px auto;
     padding: 30px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--secondary);
     border-radius: 10px;
-    background-color: #f9f9f9;
+    background-color: var(--background);
     font-family: sans-serif;
 }
 
 .heading {
     font-size: 24px;
     margin-bottom: 10px;
+    color: var(--primary);
 }
 
 .price {
     font-size: 18px;
-    color: #333;
+    color: var(--primary);
     margin-bottom: 10px;
 }
 
 .description {
     font-size: 14px;
-    color: #555;
+    color: var(--accent);
     margin-bottom: 20px;
 }
 
 .shipping-heading {
     margin: 20px 0 10px;
     font-size: 20px;
+    color: var(--primary);
 }
 
 .shipping-form {
@@ -38,15 +40,17 @@
 
 .shipping-form label {
     font-size: 14px;
-    color: #333;
+    color: var(--primary);
 }
 
 .shipping-form input {
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--secondary);
     border-radius: 6px;
     font-size: 14px;
     width: 100%;
+    background-color: var(--background);
+    color: var(--primary);
 }
 
 .place-order-btn {
@@ -54,13 +58,34 @@
     padding: 12px;
     border: none;
     border-radius: 50px;
-    background-color: #e53935;
-    color: white;
+    background-color: var(--highlight);
+    color: var(--background);
     font-size: 16px;
     cursor: pointer;
     transition: 0.2s;
 }
 
 .place-order-btn:hover {
-    opacity: 0.8;
+    opacity: 0.85;
+}
+
+/* For Payment Method Section */
+.shipping-form .payment-method {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.shipping-form .payment-method input[type="radio"] {
+    accent-color: var(--highlight);  /* Brown color matching your theme */
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.shipping-form .payment-method label {
+    font-size: 14px;
+    color: var(--primary);
+    cursor: pointer;
 }

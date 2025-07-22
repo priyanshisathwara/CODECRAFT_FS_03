@@ -6,56 +6,57 @@ import { useNavigate } from 'react-router-dom';
 
 export default function SearchBar() {
     const [search, setSearch] = useState("");
-    const [searchData, setSearchData] = useState([]);
-    const [selectedItem, setSelectedItem] = useState(-1);
+    const [searchSuggestions, setSearchSuggestions] = useState([]);
+    const [selectedIndex, setSelectedIndex] = useState(-1);
     const navigate = useNavigate();
 
     const handleChange = (e) => {
         setSearch(e.target.value);
-        setSelectedItem(-1);
+        setSelectedIndex(-1);
     };
 
     const handleClose = () => {
         setSearch("");
-        setSearchData([]);
-        setSelectedItem(-1);
+        setSearchSuggestions([]);
+        setSelectedIndex(-1);
     };
 
     const handleKeyDown = (e) => {
-        if (searchData.length === 0) return;
+        if (searchSuggestions.length === 0) return;
 
         if (e.key === "ArrowUp") {
-            setSelectedItem(prev => Math.max(prev - 1, 0));
+            e.preventDefault();
+            setSelectedIndex(prev => Math.max(prev - 1, 0));
         } else if (e.key === "ArrowDown") {
-            setSelectedItem(prev => Math.min(prev + 1, searchData.length - 1));
+            e.preventDefault();
+            setSelectedIndex(prev => Math.min(prev + 1, searchSuggestions.length - 1));
         } else if (e.key === "Enter") {
-            if (selectedItem >= 0 && selectedItem < searchData.length) {
-                handleProductClick(searchData[selectedItem]);
+            if (selectedIndex >= 0 && selectedIndex < searchSuggestions.length) {
+                navigate(`/search/${searchSuggestions[selectedIndex]}`);
+                handleClose();
+            } else {
+                navigate(`/search/${search}`);
+                handleClose();
             }
         }
     };
 
-    const handleProductClick = (product) => {
-        navigate(`/product/${product.id}`);
-        setSearch("");
-        setSearchData([]);
-    };
-
     useEffect(() => {
         if (search.trim() === "") {
-            setSearchData([]);
+            setSearchSuggestions([]);
             return;
         }
 
         axios.post("http://localhost:8000/api/products/search", { query: search })
             .then((res) => {
-                const uniqueProducts = Array.from(new Set(res.data.map(item => item.name)))
-                    .map(name => res.data.find(item => item.name === name));
-                setSearchData(uniqueProducts);
+                const uniqueSuggestions = [...new Set(
+                    res.data.map(item => item.name.toLowerCase().includes('watch') ? 'watch' : item.name.toLowerCase())
+                )];
+                setSearchSuggestions(uniqueSuggestions);
             })
             .catch(err => {
                 console.error("Error fetching search results:", err);
-                setSearchData([]);
+                setSearchSuggestions([]);
             });
     }, [search]);
 
@@ -74,21 +75,25 @@ export default function SearchBar() {
                     />
                     <div className='search-icon'>
                         {search === "" ? (
-                            <AiOutlineSearch size={24} color="#FFFFFF" />
+                            <AiOutlineSearch size={24} />
                         ) : (
-                            <AiOutlineClose size={24} color="#FFFFFF" onClick={handleClose} />
+                            <AiOutlineClose size={24} onClick={handleClose} />
                         )}
                     </div>
                 </div>
 
-                {searchData.length > 0 && (
+                {searchSuggestions.length > 0 && (
                     <div className="search-result">
-                        {searchData.map((data, index) => (
+                        {searchSuggestions.map((suggestion, index) => (
                             <div
                                 key={index}
-                                onClick={() => handleProductClick(data)}
-                                className={selectedItem === index ? 'search-suggestion-line active' : 'search-suggestion-line'}>
-                                {data.name}
+                                onClick={() => {
+                                    navigate(`/search/${suggestion}`);
+                                    handleClose();
+                                }}
+                                className={selectedIndex === index ? 'search-suggestion-line active' : 'search-suggestion-line'}
+                            >
+                                {suggestion}
                             </div>
                         ))}
                     </div>

@@ -10,7 +10,7 @@ export default function HeroBanner() {
             <div className="hero-content">
                 <h1>Welcome to Our Store</h1>
                 <p>Discover your style with the latest fashion for Men, Women & Unisex.</p>
-                <button onClick={() => navigate('/products')} className="hero-btn">Shop Now</button>
+                <button onClick={() => navigate('/shop')} className="hero-btn">Shop Now</button>
             </div>
         </div>
     );

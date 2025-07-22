@@ -67,3 +67,49 @@
     font-weight: 600;
     margin-top: 10px;
 }
+
+.cancel-btn {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.cancel-btn:hover {
+    background-color: var(--highlight);
+}
+
+.buy-btn {
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.buy-btn:hover {
+    opacity: 0.8;
+}
+
+.buy-all-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.buy-all-btn:hover {
+    opacity: 0.8;
+}

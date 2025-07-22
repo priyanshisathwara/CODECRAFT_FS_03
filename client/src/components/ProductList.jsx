@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './ProductList.css';
 
-export default function ProductList() {
+export default function ProductList({ limit }) {
     const [products, setProducts] = useState([]);
     const [filters, setFilters] = useState({
         category: '',
@@ -14,18 +14,24 @@ export default function ProductList() {
     });
     const navigate = useNavigate();
 
-    const fetchProducts = async (filterParams = {}) => {
-        const params = new URLSearchParams(filterParams).toString();
-        const url = params
-            ? `http://localhost:8000/api/products/get?${params}`
-            : `http://localhost:8000/api/products/get`;
-        try {
-            const res = await axios.get(url);
-            setProducts(res.data);
-        } catch (err) {
-            console.error(err);
+  const fetchProducts = async (filterParams = {}) => {
+    const params = new URLSearchParams(filterParams).toString();
+    const url = params
+        ? `http://localhost:8000/api/products/get?${params}`
+        : `http://localhost:8000/api/products/get`;
+    try {
+        const res = await axios.get(url);
+        let data = res.data;
+        if (limit) {
+            data = data.slice(0, limit);
         }
-    };
+        setProducts(data);
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+    
 
     useEffect(() => {
         fetchProducts();

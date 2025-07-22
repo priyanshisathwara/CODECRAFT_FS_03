@@ -20,9 +20,14 @@ import ContactUs from './components/ContactUs';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsOfService from './components/TermsOfService';
 import About from './components/About';
+import Shop from './components/shop';
+import SearchResults from './components/SearchResults';
+import BuyNowAllPage from './components/BuyNowAllPage';
 
 
 function App() {
+
+
 
   return (
     <>
@@ -47,6 +52,10 @@ function App() {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/about" element={<About />} />
+          <Route path='/shop' element={<Shop />} />
+          <Route path="/search/:query" element={<SearchResults />} />
+           <Route path="/buynowall" element={<BuyNowAllPage />} />
+
 
 
 

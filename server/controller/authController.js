@@ -7,7 +7,7 @@ export const registerUser = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
 
-    if (!name || !email || !password  || !role) {
+    if (!name || !email || !password || !role) {
       return res.status(400).json({ error: "All fields are required" });
     }
     const checkSql = "SELECT * FROM register WHERE email = ?";
@@ -25,15 +25,15 @@ export const registerUser = async (req, res) => {
       // Insert new user
       const insertSql = "INSERT INTO register (name, email, password, role) VALUES (?, ?, ?, ?)";
       db.query(insertSql, [name, email, hashedPassword, role], (insertErr, insertResult) => {
-    if (insertErr) {
-        console.error("Insert Error:", insertErr);  // Add this to see real reason
-        return res.status(500).json({ error: "Error inserting user", details: insertErr.message });
-    }
+        if (insertErr) {
+          console.error("Insert Error:", insertErr);  // Add this to see real reason
+          return res.status(500).json({ error: "Error inserting user", details: insertErr.message });
+        }
 
 
         // Create JWT token
         const token = jwt.sign(
-          { user: { id: insertResult.insertId, name, role } }, 
+          { user: { id: insertResult.insertId, name, role } },
           process.env.JWT_SECRET,
           { expiresIn: '1h' }
         );
@@ -46,7 +46,7 @@ export const registerUser = async (req, res) => {
             id: insertResult.insertId,
             name,
             email,
-            role : "user",
+            role: "user",
           },
         });
       });
@@ -84,8 +84,9 @@ export const loginUser = async (req, res) => {
         if (userRole === 'user' || userRole === 'owner') {
           res.status(200).json({
             Login: true,
-          
+
             user: {
+              id: data[0].id,
               name: data[0].name,
               email: data[0].email,
               username: data[0].username,
@@ -107,7 +108,7 @@ export const loginUser = async (req, res) => {
 
 export const sendResetPasswordMail = async (req, res) => {
   const otp = Math.floor(1000 + Math.random() * 9000)
-  const otp_expire = new Date(Date.now() +  60 * 1000);
+  const otp_expire = new Date(Date.now() + 60 * 1000);
   const email = req.body.email;
 
   const sql = "UPDATE register SET otp = ? , otp_expire = ? WHERE email = ?";
@@ -116,7 +117,7 @@ export const sendResetPasswordMail = async (req, res) => {
     if (err) {
       return res.status(500).json({ error: "Error", details: err.message });
     }
-    
+
     const mail = new Mail();
     mail.setTo(email);
     mail.setSubject("Password Reset OTP");
@@ -125,26 +126,26 @@ export const sendResetPasswordMail = async (req, res) => {
 
     return res.status(201).json({ message: "successfully" });
   });
-  
+
 }
 
 export const verifyOtp = async (req, res) => {
- const {enteredOTP, email} = req.body;
- const otp_expire = new Date(Date.now());
- console.log("current ",otp_expire)
+  const { enteredOTP, email } = req.body;
+  const otp_expire = new Date(Date.now());
+  console.log("current ", otp_expire)
 
- const sql = "SELECT * FROM register WHERE email = ? and otp = ? and otp_expire > ? ";
+  const sql = "SELECT * FROM register WHERE email = ? and otp = ? and otp_expire > ? ";
 
- db.query(sql, [email, enteredOTP, otp_expire], (err, result) => {
-  // console.log(result[0].otp_expire.getTime());
-  if(err) return res.status(400).json({ error: "something went wrong" });
-  // console.log(result)
+  db.query(sql, [email, enteredOTP, otp_expire], (err, result) => {
+    // console.log(result[0].otp_expire.getTime());
+    if (err) return res.status(400).json({ error: "something went wrong" });
+    // console.log(result)
 
-  if(!result.length) return res.status(200).json({error : "incorrect otp"})
+    if (!result.length) return res.status(200).json({ error: "incorrect otp" })
 
-  return res.status(200).json({message : "successfully verify"})
- })
-  return 
+    return res.status(200).json({ message: "successfully verify" })
+  })
+  return
 }
 
 export const resetPassword = async (req, res) => {
@@ -186,7 +187,7 @@ export const resendResetPasswordMail = async (req, res) => {
 
   // Check if the email exists in the database and fetch the existing OTP details
   const sqlSelect = "SELECT otp_expire FROM register WHERE email = ?";
-  
+
   db.query(sqlSelect, [email], (err, results) => {
     if (err) {
       return res.status(500).json({ error: "Database error", details: err.message });
@@ -210,7 +211,7 @@ export const resendResetPasswordMail = async (req, res) => {
 
     // Update the database with the new OTP
     const sqlUpdate = "UPDATE register SET otp = ?, otp_expire = ? WHERE email = ?";
-    
+
     db.query(sqlUpdate, [newOtp, newOtpExpire, email], (updateErr) => {
       if (updateErr) {
         return res.status(500).json({ error: "Database update error", details: updateErr.message });

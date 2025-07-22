@@ -72,5 +72,5 @@
 }
 
 .filter-form button:hover {
-    background-color: #205ec9;
+    background-color: var(--accent);
 }

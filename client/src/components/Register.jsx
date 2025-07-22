@@ -47,11 +47,13 @@ export default function Register() {
             if (response.status === 200 || response.status === 201) {
                 const data = response.data;
 
-                localStorage.setItem("user", JSON.stringify({
-                    name: formData.name,
-                    email: formData.email,
-                    role: formData.role
+                localStorage.setItem('user', JSON.stringify({
+                    id: response.data.user.id,
+                    name: response.data.user.name,
+                    email: response.data.user.email,
+                    role: response.data.user.role
                 }));
+
 
                 toast.success("Registered successfully!");
                 navigate("/");

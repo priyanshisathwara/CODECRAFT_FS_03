@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './ProductDetails.css';
+import { toast, ToastContainer } from 'react-toastify';
 
 export default function ProductDetails() {
     const { id } = useParams();
@@ -25,17 +26,32 @@ export default function ProductDetails() {
 
     const images = JSON.parse(product.image);
 
+    const checkAuth = () => {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user) {
+            navigate('/register');
+            return false;
+        }
+        return true;
+    };
+
+   const handleAddToCart = () => {
+    if (!checkAuth()) return;
+    const user = JSON.parse(localStorage.getItem('user'));
+    const existingCart = JSON.parse(localStorage.getItem(`cart_${user.email}`)) || [];
+    existingCart.push(product);
+    localStorage.setItem(`cart_${user.email}`, JSON.stringify(existingCart));
+
+    toast.success('Product added to cart!');
+     setTimeout(() => {
+                navigate('/order-summary');
+            }, 2000);
+};
    const handleBuyNow = () => {
-    navigate(`/buynow/${id}`);
+    if (!checkAuth()) return;
+    navigate(`/buynow/${product.id}`);
 };
 
-
-    const handleAddToCart = () => {
-        const existingCart = JSON.parse(localStorage.getItem('cart')) || [];
-        existingCart.push(product);
-        localStorage.setItem('cart', JSON.stringify(existingCart));
-        alert('Product added to cart!');
-    };
 
     return (
         <div className="product-container">
@@ -70,6 +86,7 @@ export default function ProductDetails() {
                     <button className="buy-now-btn" onClick={handleBuyNow}>Buy Now</button>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     );
 }

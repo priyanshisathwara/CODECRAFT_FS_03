@@ -1,0 +1,29 @@
+.buy-now-all-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: var(--background);
+}
+
+.product-list {
+    margin-bottom: 20px;
+}
+
+.product-card {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.place-order-btn {
+    padding: 12px;
+    width: 100%;
+    border: none;
+    border-radius: 50px;
+    background-color: var(--accent);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}

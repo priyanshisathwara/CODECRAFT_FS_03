@@ -6,6 +6,7 @@ export default function AdminProductList() {
     const [products, setProducts] = useState([]);
     const [editProduct, setEditProduct] = useState(null);
     const [imagePreviews, setImagePreviews] = useState([]);
+    const [existingImages, setExistingImages] = useState([]);
 
     const [formData, setFormData] = useState({
         name: '',
@@ -43,6 +44,8 @@ export default function AdminProductList() {
 
     const handleEdit = (product) => {
         setEditProduct(product);
+        setExistingImages(JSON.parse(product.image || '[]'));
+        setImagePreviews([]);
         setFormData({
             name: product.name,
             description: product.description,
@@ -68,7 +71,6 @@ export default function AdminProductList() {
         }
     };
 
-
     const handleUpdate = async (e) => {
         e.preventDefault();
         if (!editProduct) return;
@@ -76,9 +78,13 @@ export default function AdminProductList() {
         const data = new FormData();
         Object.keys(formData).forEach(key => {
             if (key === 'images') {
-                Array.from(formData.images).forEach(file => {
-                    data.append('images', file);
-                });
+                if (formData.images.length > 0) {
+                    formData.images.forEach(file => {
+                        data.append('images', file);
+                    });
+                } else {
+                    data.append('existingImages', JSON.stringify(existingImages));
+                }
             } else {
                 data.append(key, formData[key]);
             }
@@ -89,6 +95,8 @@ export default function AdminProductList() {
             alert('Product updated successfully');
             fetchProducts();
             setEditProduct(null);
+            setExistingImages([]);
+            setImagePreviews([]);
         } catch (err) {
             console.error(err);
             alert('Failed to update product');
@@ -113,13 +121,11 @@ export default function AdminProductList() {
                         <tr key={product.id}>
                             <td>
                                 <img
-                                    src={`http://localhost:8000${JSON.parse(product.image || '[]')[0] || ''
-                                        }`}
+                                    src={`http://localhost:8000${JSON.parse(product.image || '[]')[0] || ''}`}
                                     alt={product.name}
                                     style={{ width: '80px', height: '80px', objectFit: 'cover' }}
                                 />
                             </td>
-
                             <td>{product.name}</td>
                             <td>₹{product.price}</td>
                             <td>{product.stock_quantity}</td>
@@ -148,22 +154,26 @@ export default function AdminProductList() {
                             <option value="Unisex">Unisex</option>
                         </select>
                         <input type="file" name="images" accept="image/*" multiple onChange={handleChange} />
+
                         <div className="image-preview-container">
                             {imagePreviews.length > 0 ? (
                                 imagePreviews.map((src, idx) => (
                                     <img key={idx} src={src} alt={`preview-${idx}`} className="image-preview" />
                                 ))
                             ) : (
-                                editProduct?.image && JSON.parse(editProduct.image).map((img, idx) => (
+                                existingImages.map((img, idx) => (
                                     <img key={idx} src={`http://localhost:8000${img}`} alt={`existing-${idx}`} className="image-preview" />
                                 ))
                             )}
                         </div>
 
-
                         <div className="buttons">
                             <button type="submit">Update</button>
-                            <button type="button" onClick={() => setEditProduct(null)}>Cancel</button>
+                            <button type="button" onClick={() => {
+                                setEditProduct(null);
+                                setExistingImages([]);
+                                setImagePreviews([]);
+                            }}>Cancel</button>
                         </div>
                     </form>
                 </div>

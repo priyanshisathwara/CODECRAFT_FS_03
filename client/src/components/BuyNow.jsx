@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './BuyNowPage.css'; // Your existing CSS
+import './BuyNowPage.css';
 
 export default function BuyNowPage() {
     const { id } = useParams();
@@ -16,19 +16,34 @@ export default function BuyNowPage() {
             .catch(err => console.error(err));
     }, [id]);
 
-    const handleSubmit = (e) => {
-    e.preventDefault();
-    const existingOrders = JSON.parse(localStorage.getItem('purchased')) || [];
-    existingOrders.push(product);
-    localStorage.setItem('purchased', JSON.stringify(existingOrders));
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user) {
+            navigate('/register');
+            return;
+        }
 
-    toast.success('Order placed successfully!', {
-        position: 'top-center',
-        autoClose: 1500,
-        onClose: () => navigate('/')
-    });
-};
+        try {
+            await axios.post('http://localhost:8000/api/products/purchase-one', {
+                user_id: user.id,
+                product_id: product.id,
+            });
 
+            const existingOrders = JSON.parse(localStorage.getItem('purchased')) || [];
+            existingOrders.push(product);
+            localStorage.setItem('purchased', JSON.stringify(existingOrders));
+
+            toast.success('Order placed successfully!', {
+                position: 'top-center',
+                autoClose: 1500,
+                onClose: () => navigate('/order-summary')
+            });
+        } catch (error) {
+            console.error(error);
+            toast.error('Purchase failed.');
+        }
+    };
 
     if (!product) return <p>Loading...</p>;
 
@@ -40,7 +55,7 @@ export default function BuyNowPage() {
 
             <h3 className="shipping-heading">Shipping Information</h3>
             <form className="shipping-form" onSubmit={handleSubmit}>
-                <label>Full Name</label>
+                <label>Name</label>
                 <input type="text" placeholder="Full Name" required />
 
                 <label>Address</label>
@@ -55,10 +70,18 @@ export default function BuyNowPage() {
                 <label>Phone Number</label>
                 <input type="text" placeholder="Phone Number" required />
 
+                <h3 className="shipping-heading">Payment Method</h3>
+                <div className="payment-method">
+                    <input type="radio" id="cod" name="payment" value="Cash on Delivery" defaultChecked required />
+                    <label htmlFor="cod">Cash on Delivery (COD)</label>
+                </div>
+
+
                 <button type="submit" className="place-order-btn">Place Order</button>
             </form>
 
             <ToastContainer />
         </div>
+
     );
 }

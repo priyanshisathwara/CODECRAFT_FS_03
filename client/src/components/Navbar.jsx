@@ -5,21 +5,12 @@ import './Navbar.css';
 
 export default function Navbar() {
     const navigate = useNavigate();
-    const [isRegistered, setIsRegistered] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    // Check on component mount if user has registered before
     useEffect(() => {
-        const registered = localStorage.getItem('isRegistered');
-        if (registered === 'true') {
-            setIsRegistered(true);
-        }
+        const user = JSON.parse(localStorage.getItem('user'));
+        setIsLoggedIn(!!user);
     }, []);
-
-    const handleRegister = () => {
-        localStorage.setItem('isRegistered', 'true');
-        setIsRegistered(true);
-        navigate('/register');
-    };
 
     return (
         <nav className="navbar">
@@ -28,18 +19,10 @@ export default function Navbar() {
             </div>
 
             <ul className="navbar-links">
-                <li>
-                    <Link to="/">Home</Link>
-                </li>
-                <li>
-                    <Link to="/products">Shop</Link>
-                </li>
-                <li>
-                    <Link to="/about">About</Link>
-                </li>
-                <li>
-                    <Link to="/contact-us">Contact</Link>
-                </li>
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/shop">Shop</Link></li>
+                <li><Link to="/about">About</Link></li>
+                <li><Link to="/contact-us">Contact</Link></li>
             </ul>
 
             <div className="navbar-icons">
@@ -47,12 +30,12 @@ export default function Navbar() {
                     <FaShoppingCart size={22} />
                 </Link>
 
-                {isRegistered ? (
+                {isLoggedIn ? (
                     <Link to="/profile">
                         <FaUserCircle size={22} />
                     </Link>
                 ) : (
-                    <button className="register-btn" onClick={handleRegister}>
+                    <button className="register-btn" onClick={() => navigate('/register')}>
                         Register
                     </button>
                 )}

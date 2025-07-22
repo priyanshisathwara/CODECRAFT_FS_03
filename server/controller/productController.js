@@ -10,6 +10,7 @@ export async function addProduct(req, res) {
         return res.status(400).json({ error: 'All fields are required' });
     }
 
+
     try {
         const query = `
             INSERT INTO products 
@@ -39,8 +40,6 @@ export async function addProduct(req, res) {
 export async function getProducts(req, res) {
     try {
         const { category, size, gender, minPrice, maxPrice } = req.query;
-        console.log(req.query);
-
 
         let query = 'SELECT * FROM products WHERE 1=1';
         const params = [];
@@ -63,14 +62,7 @@ export async function getProducts(req, res) {
         if (minPrice && maxPrice) {
             query += ' AND price BETWEEN ? AND ?';
             params.push(Number(minPrice), Number(maxPrice));
-            console.log(typeof req.query.minPrice); // string
-
         }
-
-           console.log('Query:', query, params);
-
-
-
         const [rows] = await db.promise().query(query, params);
         res.json(rows);
     } catch (error) {
@@ -104,16 +96,18 @@ export async function deleteProduct(req, res) {
 
 export async function updateProduct(req, res) {
     const { name, description, price, category, stock_quantity, size, gender } = req.body;
-    const images = req.files.map(file => `/uploads/${file.filename}`);
 
-    if (!name || !price || !category || !stock_quantity || !size || !gender) {
-        return res.status(400).json({ error: 'All fields are required' });
+    let images = [];
+    if (req.files.length > 0) {
+        images = req.files.map(file => `/uploads/${file.filename}`);
+    } else if (req.body.existingImages) {
+        images = JSON.parse(req.body.existingImages);
     }
 
     try {
         const query = `
-            UPDATE products 
-            SET name = ?, 
+            UPDATE products SET 
+                name = ?, 
                 description = ?, 
                 price = ?, 
                 image = ?, 
@@ -123,12 +117,11 @@ export async function updateProduct(req, res) {
                 gender = ? 
             WHERE id = ?
         `;
-
         await db.promise().query(query, [
             name,
             description || '',
             price,
-            JSON.stringify(images), // Store as JSON string in DB
+            JSON.stringify(images),
             category,
             stock_quantity,
             size,
@@ -143,6 +136,9 @@ export async function updateProduct(req, res) {
     }
 }
 
+
+
+
 export async function searchProducts(req, res) {
     const { query } = req.body;
 
@@ -152,12 +148,76 @@ export async function searchProducts(req, res) {
 
     try {
         const [rows] = await db.promise().query(
-            `SELECT id, name FROM products WHERE name LIKE ?`,
+            `SELECT * FROM products WHERE LOWER(name) LIKE LOWER(?)`,
             [`%${query}%`]
         );
         res.json(rows);
     } catch (error) {
         console.error('Error searching products:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+export async function getPurchasedProducts(req, res) {
+    const { user_id } = req.body;
+
+    if (!user_id) {
+        return res.status(400).json({ error: "User ID is required." });
+    }
+
+    try {
+        const [rows] = await db.promise().query(
+            `SELECT p.* FROM products p
+             JOIN purchased_products pp ON p.id = pp.product_id
+             WHERE pp.user_id = ?`,
+            [user_id]
+        );
+        res.json(rows);
+    } catch (error) {
+        console.error('Error fetching purchased products:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+// Controller: PurchaseController.js
+
+export const purchaseOneProduct = async (req, res) => {
+    const { user_id, product_id } = req.body;
+
+    if (!user_id || !product_id) {
+        return res.status(400).json({ error: 'Missing user_id or product_id' });
+    }
+
+    try {
+        const [rows] = await db.promise().query(
+            'INSERT INTO purchased_products (user_id, product_id) VALUES (?, ?)',
+            [user_id, product_id]
+        );
+        res.json({ success: true, message: 'Product purchased successfully' });
+    } catch (error) {
+        console.error('Error inserting purchase:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+
+export async function purchaseMultipleProducts(req, res) {
+    const { user_id, product_ids } = req.body;
+
+    if (!user_id || !product_ids || !product_ids.length) {
+        return res.status(400).json({ error: 'Missing user_id or product_ids' });
+    }
+
+    try {
+        for (const product_id of product_ids) {
+            await db.promise().query(
+                'INSERT INTO purchased_products (user_id, product_id) VALUES (?, ?)',
+                [user_id, product_id]
+            );
+        }
+        res.json({ success: true, message: 'All products purchased successfully' });
+    } catch (error) {
+        console.error('Error inserting purchases:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }

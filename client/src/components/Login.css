@@ -6,13 +6,13 @@
     align-items: center;
     justify-content: center;
     padding-left: 50px;
-    background-color: linear-gradient(to right, #e0eafc, #cfdef3);
+    background: linear-gradient(to right, var(--background), var(--secondary));
     font-family: 'Poppins', sans-serif;
 }
 
 /* Container Box */
 .login-container {
-    background: #fefefe;
+    background: #fff;
     padding: 25px;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -30,14 +30,17 @@
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
+    color: var(--primary);
 }
 
 .form-group input {
-  width: 89% !important;
+    width: 89% !important;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--secondary);
     border-radius: 5px;
     font-size: 16px;
+    background-color: var(--background);
+    color: var(--primary);
 }
 
 /* Error Message */
@@ -50,7 +53,7 @@
 .forgot-password {
     display: block;
     text-align: right;
-    color:  #4A90E2;
+    color: var(--highlight);
     text-decoration: none;
     font-size: 14px;
     margin-bottom: 10px;
@@ -66,8 +69,8 @@
     display: block;
     width: 94%;
     padding: 10px 20px;
-    background:  #4A90E2;
-    color: #fefefe;
+    background: var(--highlight);
+    color: #fff;
     font-size: 16px;
     font-weight: bold;
     border: none;
@@ -77,16 +80,16 @@
 }
 
 .login-btn:hover {
-    background: #357ABD;
+    background: var(--accent);
 }
 
 .register-btn-in-login {
     display: block;
     width: 89%;
-    background:#4A90E2;
-    color: #fefefe;
+    background: var(--highlight);
+    color: #fff;
     padding: 12px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--secondary);
     border-radius: 5px;
     font-size: 16px;
     text-decoration: none;
@@ -96,6 +99,6 @@
 }
 
 .register-btn-in-login:hover {
-    background: #357ABD;
+    background: var(--accent);
     transform: scale(1.05);
 }

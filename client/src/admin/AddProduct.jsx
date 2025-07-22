@@ -22,6 +22,10 @@ export default function AddProduct() {
         if (name === 'images') {
             const fileArray = Array.from(files);
             setFormData({ ...formData, images: fileArray });
+            for (let pair of formData.entries()) {
+                console.log(pair[0], pair[1]);
+            }
+
 
             const previewUrls = fileArray.map(file => URL.createObjectURL(file));
             setImagePreviews(previewUrls);
@@ -84,11 +88,11 @@ export default function AddProduct() {
             <input type="text" name="size" placeholder="Sizes (S, M, L, XL)" value={formData.size} onChange={handleChange} required />
 
             <label>Gender</label>
-         <select name="gender" onChange={handleChange} value={formData.gender}>
-    <option value="Male">Male</option>
-    <option value="Female">Female</option>
-    <option value="Unisex">Unisex</option>
-</select>
+            <select name="gender" onChange={handleChange} value={formData.gender}>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Unisex">Unisex</option>
+            </select>
 
 
             <label>Product Images</label>
