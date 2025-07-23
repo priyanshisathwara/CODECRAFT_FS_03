@@ -182,23 +182,48 @@ export async function getPurchasedProducts(req, res) {
 // Controller: PurchaseController.js
 
 export const purchaseOneProduct = async (req, res) => {
-    const { user_id, product_id } = req.body;
+    const { user_id, product_id, quantity } = req.body;
 
-    if (!user_id || !product_id) {
-        return res.status(400).json({ error: 'Missing user_id or product_id' });
+    if (!user_id || !product_id || !quantity) {
+        return res.status(400).json({ error: 'Missing user_id, product_id, or quantity' });
     }
 
     try {
         const [rows] = await db.promise().query(
-            'INSERT INTO purchased_products (user_id, product_id) VALUES (?, ?)',
-            [user_id, product_id]
+            'SELECT stock_quantity FROM products WHERE id = ?',
+            [product_id]
         );
+
+        if (rows.length === 0) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+
+        const currentStock = rows[0].stock_quantity;
+
+        if (currentStock < quantity) {
+            return res.status(400).json({ error: 'Insufficient stock available' });
+        }
+
+        // Insert into purchased_products
+        await db.promise().query(
+            'INSERT INTO purchased_products (user_id, product_id, quantity, purchase_date) VALUES (?, ?, ?, NOW())',
+            [user_id, product_id, quantity]
+        );
+
+        // Update stock
+        await db.promise().query(
+            'UPDATE products SET stock_quantity = stock_quantity - ? WHERE id = ?',
+            [quantity, product_id]
+        );
+
         res.json({ success: true, message: 'Product purchased successfully' });
     } catch (error) {
-        console.error('Error inserting purchase:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        console.error('Error during purchase:', error); // 🔥 log real error
+        res.status(500).json({ error: 'Internal Server Error', detail: error.message });
     }
 };
+
+
 
 
 export async function purchaseMultipleProducts(req, res) {

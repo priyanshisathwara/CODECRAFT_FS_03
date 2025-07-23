@@ -30,6 +30,7 @@ export default function Home() {
        <HeroBanner />
 
        <SearchBar />
+       <h2>Look our Amazing </h2>
         <ProductList limit={10} />
         <NewArrivals />
        <Footer />

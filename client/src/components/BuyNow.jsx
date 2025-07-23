@@ -9,6 +9,8 @@ export default function BuyNowPage() {
     const { id } = useParams();
     const navigate = useNavigate();
     const [product, setProduct] = useState(null);
+    const [quantity, setQuantity] = useState(1);
+
 
     useEffect(() => {
         axios.get(`http://localhost:8000/api/products/get/${id}`)
@@ -28,6 +30,7 @@ export default function BuyNowPage() {
             await axios.post('http://localhost:8000/api/products/purchase-one', {
                 user_id: user.id,
                 product_id: product.id,
+                quantity: quantity
             });
 
             const existingOrders = JSON.parse(localStorage.getItem('purchased')) || [];
@@ -69,6 +72,16 @@ export default function BuyNowPage() {
 
                 <label>Phone Number</label>
                 <input type="text" placeholder="Phone Number" required />
+
+                <label>Quantity</label>
+                <input
+                    type="number"
+                    min="1"
+                    value={quantity}
+                    onChange={(e) => setQuantity(parseInt(e.target.value))}
+                    required
+                />
+
 
                 <h3 className="shipping-heading">Payment Method</h3>
                 <div className="payment-method">

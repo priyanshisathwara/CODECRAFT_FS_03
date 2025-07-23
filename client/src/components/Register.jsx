@@ -48,10 +48,10 @@ export default function Register() {
                 const data = response.data;
 
                 localStorage.setItem('user', JSON.stringify({
-                    id: response.data.user.id,
-                    name: response.data.user.name,
-                    email: response.data.user.email,
-                    role: response.data.user.role
+                    id: data.user.id,
+                    name: data.user.name,
+                    email:data.user.email,
+                    role: data.user.role
                 }));
 
 

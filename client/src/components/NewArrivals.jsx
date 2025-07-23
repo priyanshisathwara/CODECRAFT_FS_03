@@ -22,7 +22,7 @@ export default function NewArrivals() {
 
     return (
         <div className="new-arrivals-container">
-            <h2 className="section-title">🆕 New Arrivals</h2>
+            <h2 className="section-title"> New Arrivals</h2>
             <div className="products-grid">
                 {products.map((product) => (
                     <div key={product.id} className="product-card" onClick={() => handleClick(product.id)}>

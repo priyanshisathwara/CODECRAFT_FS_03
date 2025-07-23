@@ -35,22 +35,25 @@ export default function ProductDetails() {
         return true;
     };
 
-   const handleAddToCart = () => {
-    if (!checkAuth()) return;
-    const user = JSON.parse(localStorage.getItem('user'));
-    const existingCart = JSON.parse(localStorage.getItem(`cart_${user.email}`)) || [];
-    existingCart.push(product);
-    localStorage.setItem(`cart_${user.email}`, JSON.stringify(existingCart));
+    const handleAddToCart = () => {
+        if (!checkAuth()) return;
+        const user = JSON.parse(localStorage.getItem('user'));
+        const existingCart = JSON.parse(localStorage.getItem(`cart_${user.email}`)) || [];
+        existingCart.push(product);
+        localStorage.setItem(`cart_${user.email}`, JSON.stringify(existingCart));
 
-    toast.success('Product added to cart!');
-     setTimeout(() => {
-                navigate('/order-summary');
-            }, 2000);
-};
-   const handleBuyNow = () => {
-    if (!checkAuth()) return;
-    navigate(`/buynow/${product.id}`);
-};
+        toast.success('Product added to cart!');
+        setTimeout(() => {
+            navigate('/order-summary');
+        }, 2000);
+    };
+    
+    const handleBuyNow = () => {
+        if (!checkAuth()) return;
+        navigate(`/buynow/${product.id}`);
+    };
+
+
 
 
     return (
@@ -76,15 +79,21 @@ export default function ProductDetails() {
                 <p className="product-price">₹{product.price}</p>
                 <p className="product-description">{product.description}</p>
                 <div className="product-info">
-                    <p><strong>In Stock:</strong> {product.stock_quantity}</p>
                     <p><strong>Category:</strong> {product.category}</p>
                     <p><strong>Sizes:</strong> {product.size}</p>
                     <p><strong>Gender:</strong> {product.gender}</p>
                 </div>
                 <div className="button-group">
-                    <button className="add-to-cart-btn" onClick={handleAddToCart}>Add to Cart</button>
-                    <button className="buy-now-btn" onClick={handleBuyNow}>Buy Now</button>
+                    {product.stock_quantity === 0 ? (
+                        <span className="out-of-stock">Out of Stock</span>
+                    ) : (
+                        <>
+                            <button className="add-to-cart-btn" onClick={handleAddToCart}>Add to Cart</button>
+                            <button className="buy-now-btn" onClick={handleBuyNow}>Buy Now</button>
+                        </>
+                    )}
                 </div>
+
             </div>
             <ToastContainer />
         </div>
